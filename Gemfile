@@ -25,6 +25,10 @@ gem 'bcrypt', '~> 3.1.13'
 # jwt
 gem 'jwt'
 
+# friendly slug url
+gem 'friendly_id', '~> 5.4.0'
+
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

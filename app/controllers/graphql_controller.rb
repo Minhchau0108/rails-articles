@@ -10,12 +10,13 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       # Query context goes here, for example:
-      # current_user: current_user,
+      current_user: current_user,
     }
     result = MyappSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue => e
     raise e unless Rails.env.development?
+
     handle_error_in_development e
   end
 
@@ -39,6 +40,18 @@ class GraphqlController < ApplicationController
     else
       raise ArgumentError, "Unexpected parameter: #{variables_param}"
     end
+  end
+
+  def current_user
+    return nil if request.headers['Authorization'].blank?
+
+    header = request.headers['Authorization']
+    token = header.split(' ').last if header
+
+    return nil if token.blank?
+
+    decoded = ::JwtDecode.new(token).call
+    @current_user = User.find(decoded[:user_id])
   end
 
   def handle_error_in_development(e)
