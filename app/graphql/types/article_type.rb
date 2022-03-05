@@ -3,7 +3,7 @@ module Types
     field :id, ID, null: false
     field :title, String, null: false
     field :body, String, null: false
-    field :summary, String, null: false
+    field :summary, String, null: true
     field :published_at, String, null: false
     field :slug, String, null: false
   end
